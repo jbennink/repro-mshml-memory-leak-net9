@@ -24,7 +24,7 @@ It seems this memory leak in combination with navigates in the MSHTML control an
 In NET9 depending on the length of calls (ie. number of calls/hour) a crash happens after around 1-1.5 hours.
 
 ## Reproduction
-We created a small test application that does the main things that lead to the memory leak/crash. This application will crash in about 5 minutes. See https://github.com/jbennink/repro-mshml-memory-leak-net9
+We created a small test application that does the main things that lead to the memory leak/crash. This application will crash in about 5 minutes. See https://github.com/jbennink/repro-mshtml-memory-leak-net9
 
 We also support WebView2, when switching to that browser engine the memory leak does not occur in NET9, which is obvious since it is completely different. However due to several customers running custom call scripts with 
 embedded vbscript (yes really) we still have to support MSHTML, which itself is supported until 2029.
