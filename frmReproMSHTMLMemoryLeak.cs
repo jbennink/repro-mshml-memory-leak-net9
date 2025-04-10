@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
 
@@ -37,7 +38,15 @@ namespace MSHTML.Test
             {
                 // Do Nothing, just iterate over the elements to get the memory leak.
             }
-            
+
+            // ISSUE: https://github.com/dotnet/winforms/issues/13195
+            // PATCH: by JeremyKuhne
+            // This seems to solve the issue (even without the WaitForPendingFinalizers() but in this repro this generates
+            // tons of GC's, in the production code we might do this in the DocumentCompleted since we only expect 1 or very few
+            // navigates during a call of the Agent
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
             _browser.Navigate(Url);
 
             Application.DoEvents();
