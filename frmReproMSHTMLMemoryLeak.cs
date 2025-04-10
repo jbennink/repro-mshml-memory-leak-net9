@@ -31,12 +31,18 @@ namespace MSHTML.Test
             // In reality the navigates activate outside this method and are controlled by the user 
             // pressing a button, but this is only to get this behaviour/issue as fast as possible
 
+            // With this loop added at 300 iterations or more the memory leak manifests, even when
+            // we call GC.Collect below
+
             // We get the field and iterate over to set values from the database
             // Here we only iterate and do nothing, which seems enough to cause the issue
-            var elements = _browser.Document.GetElementsByTagName("INPUT");
-            foreach (HtmlElement element in elements)
+            for (int i = 0; i < 500; i++)
             {
-                // Do Nothing, just iterate over the elements to get the memory leak.
+                var elements = _browser.Document.GetElementsByTagName("INPUT");
+                foreach (HtmlElement element in elements)
+                {
+                    // Do Nothing, just iterate over the elements to get the memory leak.
+                }
             }
 
             // ISSUE: https://github.com/dotnet/winforms/issues/13195
